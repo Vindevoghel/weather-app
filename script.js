@@ -3,10 +3,15 @@ let cityButton = document.getElementById("cityButton");
 cityButton.addEventListener("click", function() {
     let cityInput = document.getElementById("textbox").value;
 
-    axios.get('https://api.openweathermap.org/data/2.5/forecast?q=' + cityInput +'&units=metric&appid=0921fb1cbfd95e028b3132ca5c1564da')
-        .then(function (weatherinfo) {
-            //console.log(weatherinfo.data.list.weather[0]);
-
+    axios.all([
+        axios.get('https://api.openweathermap.org/data/2.5/forecast?q=' + cityInput +'&units=metric&appid=0921fb1cbfd95e028b3132ca5c1564da'),
+        axios.get('https://api.openweathermap.org/data/2.5/weather?q=' + cityInput +'&units=metric&appid=0921fb1cbfd95e028b3132ca5c1564da')
+    ])
+        .then(axios.spread((function(weatherinfo, weathertoday) {
+            console.log(weatherinfo);
+            function dayChecker() {
+                
+            }
 
             let firstDayTemp = [], secondDayTemp = [], thirdDayTemp = [], fourthDayTemp = [], fifthDayTemp = [];
             let firstDayMin = [], secondDayMin = [], thirdDayMin = [], fourthDayMin = [], fifthDayMin = [];
@@ -78,15 +83,17 @@ cityButton.addEventListener("click", function() {
             function roundNumber(number) {
                 return (Math.round(number * 10) / 10).toFixed(1);
             }
+            console.log(weathertoday.data.main.temp, weathertoday.data.main.temp_max, weathertoday.data.main.temp_min, weathertoday.data.weather[0].main);
 
-            document.getElementById("weatherReport1").innerText = "First day minimum temperature is: " + roundNumber(firstDayMin) + ". Maximum: " + roundNumber(firstDayMax) + ". Average: " + roundNumber(firstDayTemp) + ".";
+
+            document.getElementById("weatherReport1").innerText = "The Temperature is: " + roundNumber(weathertoday.data.main.temp) + ". Maximum: " + roundNumber(weathertoday.data.main.temp_max) + ". Minimum: " + roundNumber(weathertoday.data.main.temp_min) + "." + weathertoday.data.weather[0].main;
             document.getElementById("weatherReport2").innerText = "Second day minimum temperature is: " + roundNumber(secondDayMin) + ". Maximum: " + roundNumber(secondDayMax) + ". Average: " + roundNumber(secondDayTemp) + ".";
             document.getElementById("weatherReport3").innerText = "Third day minimum temperature is: " + roundNumber(thirdDayMin) + ". Maximum: " + roundNumber(thirdDayMax) + ". Average: " + roundNumber(thirdDayTemp) + ".";
             document.getElementById("weatherReport4").innerText = "Fourth day minimum temperature is: " + roundNumber(fourthDayMin) + ". Maximum: " + roundNumber(fourthDayMax) + ". Average: " + roundNumber(fourthDayTemp) + ".";
             document.getElementById("weatherReport5").innerText = "Fifth day minimum temperature is: " + roundNumber(fifthDayMin) + ". Maximum: " + roundNumber(fifthDayMax) + ". Average: " + roundNumber(fifthDayTemp) + ".";
 
 
-        })
+        })))
         .catch(function (error) {
             console.log(error);
         });
