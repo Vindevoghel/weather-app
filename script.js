@@ -19,7 +19,7 @@ cityButton.addEventListener("click", function () {
                 ).pop();
             }
 
-            function icon(icon){
+            function icon (icon){
                 return "http://openweathermap.org/img/wn/" + icon + "@2x.png"
             }
 
@@ -185,11 +185,6 @@ cityButton.addEventListener("click", function () {
             document.getElementById("minTemp5").innerText = "Minimum temperature will be " + day5Min + ".";
             document.getElementById("maxTemp5").innerText = "Maximum temperature will be " + day5Max + ".";
             clothingAdvice(day5Avg, advice5, weatherReport5);
-
-
-            function icon(icon){
-                return "http://openweathermap.org/img/wn/" + icon + "@2x.png"
-            }
 
         })))
         .catch(function (error) {
