@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Weather App</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css" type="text/css">
@@ -10,127 +10,127 @@
 <body>
 <div class="container-fluid">
     <div class="row">
+        <h1>Weather App</h1>
+    </div>
+    <div class="row" id="inputfield">
 
-        <div class="col-md-4">
-            <h1>Weather App</h1>
-        </div>
-
-        <div class="col-md-8">
             <span>Pick your City</span>
             <input type="text" id="textbox" label="cityInput" value="Put in your city here!">
             <button type="button" id="cityButton">Submit</button>
-        </div>
 
     </div>
 
+</div>
 
-    <div class="row" id="current">
-        <div class="card" id="weatherReport1">
+
+<div class="row" id="current">
+    <div class="card" id="weatherReport1">
+        <div class="card-header">
+            <p>Today's Weather</p>
+            <p id="todaydate"></p>
+        </div>
+        <div class="icons">
+            <img class="img-fluid" id="todayIcon" src="" alt="">
+        </div>
+        <div class="card-body">
+            <h4 class="card-title" id="weatherType">Current Weather</h4>
+            <div class="card-text">
+                <span id="avgTemp1">Current Temperature</span></br>
+                <span id="minTemp1">Minima</span></br>
+                <span id="maxTemp1">Maxima</span>
+            </div>
+        </div>
+        <div class="card-footer" id="advice1">
+            Advice
+        </div>
+    </div>
+</div>
+<div class="row" id="forecast">
+    <div class="col-md-3">
+        <div class="card" id="weatherReport2">
             <div class="card-header">
-                <p>Today's Weather</p>
+                <p id="day2">Forecast for</p>
             </div>
             <div class="icons">
-            <img class="img-fluid" id="todayIcon" src="" alt="">
+                <img class="img-fluid" id="icon2" src="" alt="">
             </div>
-                <div class="card-body">
-                <h4 class="card-title" id="weatherType">Current Weather</h4>
+            <div class="card-body">
+                <h4 class="card-title" id="weatherType2">Current Weather</h4>
                 <div class="card-text">
-                    <span id="avgTemp1">Current Temperature</span></br>
-                    <span id="minTemp1">Minima</span></br>
-                    <span id="maxTemp1">Maxima</span>
+                    <span id="avgTemp2">Current Temperature</span></br>
+                    <span id="minTemp2">Minima</span></br>
+                    <span id="maxTemp2">Maxima</span>
                 </div>
             </div>
-            <div class="card-footer" id="advice1">
+            <div class="card-footer" id="advice2">
                 Advice
             </div>
         </div>
     </div>
-    <div class="row" id="forecast">
-        <div class="col-md-3">
-            <div class="card" id="weatherReport2">
-                <div class="card-header">
-                    <p>Forecast for</p>
-                </div>
-                <div class="icons">
-                    <img class="img-fluid" id="icon2" src="" alt="">
-                </div>
-                <div class="card-body">
-                    <h4 class="card-title" id="weatherType2">Current Weather</h4>
-                    <div class="card-text">
-                        <span id="avgTemp2">Current Temperature</span></br>
-                        <span id="minTemp2">Minima</span></br>
-                        <span id="maxTemp2">Maxima</span>
-                    </div>
-                </div>
-                <div class="card-footer" id="advice2">
-                    Advice
+    <div class="col-md-3">
+        <div class="card" id="weatherReport3">
+            <div class="card-header">
+                <p id="day3">Forecast for</p>
+            </div>
+            <div class="icons">
+                <img class="img-fluid" id="icon3" src="" alt="">
+            </div>
+            <div class="card-body">
+                <h4 class="card-title" id="weatherType3">Current Weather</h4>
+                <div class="card-text">
+                    <span id="avgTemp3">Current Temperature</span></br>
+                    <span id="minTemp3">Minima</span></br>
+                    <span id="maxTemp3">Maxima</span>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card" id="weatherReport3">
-                <div class="card-header">
-                    <p>Forecast for</p>
-                </div>
-                <div class="icons">
-                    <img class="img-fluid" id="icon3" src="" alt="">
-                </div>
-                <div class="card-body">
-                    <h4 class="card-title" id="weatherType3">Current Weather</h4>
-                    <div class="card-text">
-                        <span id="avgTemp3">Current Temperature</span></br>
-                        <span id="minTemp3">Minima</span></br>
-                        <span id="maxTemp3">Maxima</span>
-                    </div>
-                </div>
-                <div class="card-footer" id="advice3">
-                    Advice
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card" id="weatherReport4">
-                <div class="card-header">
-                    <p>Forecast for</p>
-                </div>
-                <div class="icons">
-                    <img class="img-fluid" id="icon4" src="" alt="">
-                </div>
-                <div class="card-body">
-                    <h4 class="card-title" id="weatherType4">Current Weather</h4>
-                    <div class="card-text">
-                        <span id="avgTemp4">Current Temperature</span></br>
-                        <span id="minTemp4">Minima</span></br>
-                        <span id="maxTemp4">Maxima</span>
-                    </div>
-                </div>
-                <div class="card-footer" id="advice4">
-                    Advice
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card" id="weatherReport5">
-                <div class="card-header">
-                    <p>Forecast for</p>
-                </div>
-                <div class="icons">
-                    <img class="img-fluid" id="icon5" src="" alt="">
-                </div>
-                <div class="card-body">
-                    <h4 class="card-title" id="weatherType5">Current Weather</h4>
-                    <div class="card-text">
-                        <span id="avgTemp5">Current Temperature</span></br>
-                        <span id="minTemp5">Minima</span></br>
-                        <span id="maxTemp5">Maxima</span>
-                    </div>
-                </div>
-                <div class="card-footer" id="advice5">
-                    Advice
-                </div>
+            <div class="card-footer" id="advice3">
+                Advice
             </div>
         </div>
     </div>
+    <div class="col-md-3">
+        <div class="card" id="weatherReport4">
+            <div class="card-header">
+                <p id="day4">Forecast for</p>
+            </div>
+            <div class="icons">
+                <img class="img-fluid" id="icon4" src="" alt="">
+            </div>
+            <div class="card-body">
+                <h4 class="card-title" id="weatherType4">Current Weather</h4>
+                <div class="card-text">
+                    <span id="avgTemp4">Current Temperature</span></br>
+                    <span id="minTemp4">Minima</span></br>
+                    <span id="maxTemp4">Maxima</span>
+                </div>
+            </div>
+            <div class="card-footer" id="advice4">
+                Advice
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card" id="weatherReport5">
+            <div class="card-header">
+                <p id="day5">Forecast for</p>
+            </div>
+            <div class="icons">
+                <img class="img-fluid" id="icon5" src="" alt="">
+            </div>
+            <div class="card-body">
+                <h4 class="card-title" id="weatherType5">Current Weather</h4>
+                <div class="card-text">
+                    <span id="avgTemp5">Current Temperature</span></br>
+                    <span id="minTemp5">Minima</span></br>
+                    <span id="maxTemp5">Maxima</span>
+                </div>
+            </div>
+            <div class="card-footer" id="advice5">
+                Advice
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 </div>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
