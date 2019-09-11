@@ -8,14 +8,14 @@ cityButton.addEventListener("click", function () {
         axios.get('https://api.openweathermap.org/data/2.5/weather?q=' + cityInput + '&units=metric&appid=0921fb1cbfd95e028b3132ca5c1564da')
     ])
         .then(axios.spread((function (weatherinfo, weathertoday) {
-            //console.log("Forecast", weatherinfo);
+            console.log("Forecast", weatherinfo);
             //console.log("Current", weathertoday);
 
             function roundNumber(number) {
                 return (Math.round(number * 10) / 10).toFixed(1);
             }
 
-            function clothingAdvice(daytemp, dayadvice) {
+            function clothingAdvice(daytemp, dayadvice, weatherreport) {
                 const HOT = 40;
                 const WARM = 25;
                 const CHILLY = 15;
@@ -23,18 +23,25 @@ cityButton.addEventListener("click", function () {
                 switch (true) {
                     case(daytemp > HOT):
                         dayadvice.innerText = "Stay inside. You will melt.";
+                        weatherreport.style.background="Crimson";
+                        weatherreport.style.color="white";
                         break;
                     case(daytemp > WARM /*&& daytemp < HOT*/):
                         dayadvice.innerText = "Sun's out, gun's out!";
+                        weatherreport.style.background="OrangeRed";
+                        weatherreport.style.color="white";
                         break;
                     case(daytemp > CHILLY /*&& daytemp < WARM*/):
                         dayadvice.innerText = "Bring a jumper!";
+                        weatherreport.style.background="PaleGreen";
                         break;
                     case(daytemp > COLD):
                         dayadvice.innerText = "Bring a coat!";
+                        weatherreport.style.background="Steelblue";
                         break;
                     case(daytemp < COLD):
-                        dayadvice.innerText = "FREEZING, bring your thermal underwear!"
+                        dayadvice.innerText = "FREEZING, bring your thermal underwear!";
+                        weatherreport.style.background="lightblue";
                 }
             }
 
@@ -117,29 +124,29 @@ cityButton.addEventListener("click", function () {
             document.getElementById("weatherType").innerText = currentType;
             document.getElementById("todayIcon").src = weatherIcon;
             document.getElementById("avgTemp1").innerText = "The current temperature is " + currentTemp + ".";
-            document.getElementById("minTemp1").innerText = "The minimum temperature is " + currentMin + ".";
-            document.getElementById("maxTemp1").innerText = "The maximum temperature is " + currentMax + ".";
-            clothingAdvice(currentTemp, advice1);
+            document.getElementById("minTemp1").innerText = "Minimum temperature is " + currentMin + ".";
+            document.getElementById("maxTemp1").innerText = "Maximum temperature is " + currentMax + ".";
+            clothingAdvice(currentTemp, advice1, weatherReport1);
 
-            document.getElementById("avgTemp2").innerText = "The average temperature will be " + day2Avg + ".";
-            document.getElementById("minTemp2").innerText = "The minimum temperature will be " + day2Min + ".";
-            document.getElementById("maxTemp2").innerText = "The maximum temperature will be " + day2Max + ".";
-            clothingAdvice(day2Avg, advice2);
+            document.getElementById("avgTemp2").innerText = "Average temperature will be " + day2Avg + ".";
+            document.getElementById("minTemp2").innerText = "Minimum temperature will be " + day2Min + ".";
+            document.getElementById("maxTemp2").innerText = "Maximum temperature will be " + day2Max + ".";
+            clothingAdvice(day2Avg, advice2, weatherReport2);
 
-            document.getElementById("avgTemp3").innerText = "The average temperature will be " + day3Avg + ".";
-            document.getElementById("minTemp3").innerText = "The minimum temperature will be " + day3Min + ".";
-            document.getElementById("maxTemp3").innerText = "The maximum temperature will be " + day3Max + ".";
-            clothingAdvice(day3Avg, advice3);
+            document.getElementById("avgTemp3").innerText = "Average temperature will be " + day3Avg + ".";
+            document.getElementById("minTemp3").innerText = "Minimum temperature will be " + day3Min + ".";
+            document.getElementById("maxTemp3").innerText = "Maximum temperature will be " + day3Max + ".";
+            clothingAdvice(day3Avg, advice3, weatherReport3);
 
-            document.getElementById("avgTemp4").innerText = "The average temperature will be " + day4Avg + ".";
-            document.getElementById("minTemp4").innerText = "The minimum temperature will be " + day4Min + ".";
-            document.getElementById("maxTemp4").innerText = "The maximum temperature will be " + day4Max + ".";
-            clothingAdvice(day4Avg, advice4);
+            document.getElementById("avgTemp4").innerText = "Average temperature will be " + day4Avg + ".";
+            document.getElementById("minTemp4").innerText = "Minimum temperature will be " + day4Min + ".";
+            document.getElementById("maxTemp4").innerText = "Maximum temperature will be " + day4Max + ".";
+            clothingAdvice(day4Avg, advice4, weatherReport4);
 
-            document.getElementById("avgTemp5").innerText = "The average temperature will be " + day5Avg + ".";
-            document.getElementById("minTemp5").innerText = "The minimum temperature will be " + day5Min + ".";
-            document.getElementById("maxTemp5").innerText = "The maximum temperature will be " + day5Max + ".";
-            clothingAdvice(day5Avg, advice5);
+            document.getElementById("avgTemp5").innerText = "Average temperature will be " + day5Avg + ".";
+            document.getElementById("minTemp5").innerText = "Minimum temperature will be " + day5Min + ".";
+            document.getElementById("maxTemp5").innerText = "Maximum temperature will be " + day5Max + ".";
+            clothingAdvice(day5Avg, advice5, weatherReport5);
 
 
         })))
