@@ -9,7 +9,19 @@ cityButton.addEventListener("click", function () {
     ])
         .then(axios.spread((function (weatherinfo, weathertoday) {
             console.log("Forecast", weatherinfo);
+
             //console.log("Current", weathertoday);
+
+            function mostOccurences(arr){
+                return arr.sort((a,b) =>
+                    arr.filter(v => v===a).length
+                    - arr.filter(v => v===b).length
+                ).pop();
+            }
+
+            function icon(icon){
+                return "http://openweathermap.org/img/wn/" + icon + "@2x.png"
+            }
 
             function roundNumber(number) {
                 return (Math.round(number * 10) / 10).toFixed(1);
@@ -23,35 +35,35 @@ cityButton.addEventListener("click", function () {
                 switch (true) {
                     case(daytemp > HOT):
                         dayadvice.innerText = "Stay inside. You will melt.";
-                        weatherreport.style.background="Crimson";
-                        weatherreport.style.color="white";
+                        weatherreport.style.background = "Crimson";
+                        weatherreport.style.color = "white";
                         break;
                     case(daytemp > WARM /*&& daytemp < HOT*/):
                         dayadvice.innerText = "Sun's out, gun's out!";
-                        weatherreport.style.background="OrangeRed";
-                        weatherreport.style.color="white";
+                        weatherreport.style.background = "OrangeRed";
+                        weatherreport.style.color = "white";
                         break;
                     case(daytemp > CHILLY /*&& daytemp < WARM*/):
                         dayadvice.innerText = "Bring a jumper!";
-                        weatherreport.style.background="PaleGreen";
+                        weatherreport.style.background = "PaleGreen";
+                        weatherreport.style.color = "black";
                         break;
                     case(daytemp > COLD):
                         dayadvice.innerText = "Bring a coat!";
-                        weatherreport.style.background="Steelblue";
+                        weatherreport.style.background = "Steelblue";
                         break;
                     case(daytemp < COLD):
                         dayadvice.innerText = "FREEZING, bring your thermal underwear!";
-                        weatherreport.style.background="lightblue";
+                        weatherreport.style.background = "lightblue";
+                        weatherreport.style.color = "black";
                 }
-            }
-
-            function dayChecker() {
-
             }
 
             let firstDayTemp = [], secondDayTemp = [], thirdDayTemp = [], fourthDayTemp = [], fifthDayTemp = [];
             let firstDayMin = [], secondDayMin = [], thirdDayMin = [], fourthDayMin = [], fifthDayMin = [];
             let firstDayMax = [], secondDayMax = [], thirdDayMax = [], fourthDayMax = [], fifthDayMax = [];
+            let firstDayTypeArr = [], secondDayTypeArr = [], thirdDayTypeArr = [], fourthDayTypeArr = [], fifthDayTypeArr = [];
+            let firstDayIconArr = [], secondDayIconArr = [], thirdDayIconArr = [], fourthDayIconArr = [], fifthDayIconArr = [];
 
             for (let i = 0; i < 40; i++) {
                 console.log(weatherinfo.data.list[i].weather[0]);
@@ -60,39 +72,58 @@ cityButton.addEventListener("click", function () {
                         firstDayMin.push(weatherinfo.data.list[i].main.temp_min);
                         firstDayTemp.push(weatherinfo.data.list[i].main.temp);
                         firstDayMax.push(weatherinfo.data.list[i].main.temp_max);
+                        firstDayTypeArr.push(weatherinfo.data.list[i].weather[0].main);
+                        firstDayIconArr.push(weatherinfo.data.list[i].weather[0].icon);
                         //console.log(firstDayMin, firstDayTemp, firstDayMax);
                         break;
                     case (i < 16):
                         secondDayMin.push(weatherinfo.data.list[i].main.temp_min);
                         secondDayTemp.push(weatherinfo.data.list[i].main.temp);
                         secondDayMax.push(weatherinfo.data.list[i].main.temp_max);
+                        secondDayTypeArr.push(weatherinfo.data.list[i].weather[0].main);
+                        secondDayIconArr.push(weatherinfo.data.list[i].weather[0].icon);
                         //console.log(secondDayMin, secondDayTemp, secondDayMax);
                         break;
                     case (i < 24):
                         thirdDayMin.push(weatherinfo.data.list[i].main.temp_min);
                         thirdDayTemp.push(weatherinfo.data.list[i].main.temp);
                         thirdDayMax.push(weatherinfo.data.list[i].main.temp_max);
+                        thirdDayTypeArr.push(weatherinfo.data.list[i].weather[0].main);
+                        thirdDayIconArr.push(weatherinfo.data.list[i].weather[0].icon);
                         //console.log(thirdDayMin, thirdDayTemp, thirdDayMax);
                         break;
                     case (i < 32):
                         fourthDayMin.push(weatherinfo.data.list[i].main.temp_min);
                         fourthDayTemp.push(weatherinfo.data.list[i].main.temp);
                         fourthDayMax.push(weatherinfo.data.list[i].main.temp_max);
+                        fourthDayTypeArr.push(weatherinfo.data.list[i].weather[0].main);
+                        fourthDayIconArr.push(weatherinfo.data.list[i].weather[0].icon);
                         //console.log(fourthDayMin, fourthDayTemp, fourthDayMax);
                         break;
                     case(i < 40):
                         fifthDayMin.push(weatherinfo.data.list[i].main.temp_min);
                         fifthDayTemp.push(weatherinfo.data.list[i].main.temp);
                         fifthDayMax.push(weatherinfo.data.list[i].main.temp_max);
+                        fifthDayTypeArr.push(weatherinfo.data.list[i].weather[0].main);
+                        fifthDayIconArr.push(weatherinfo.data.list[i].weather[0].icon);
                     //console.log(fifthDayMin, fifthDayTemp, fifthDayMax);
                 }
             }
+            console.log(firstDayTypeArr);
+            console.log(secondDayTypeArr);
+            console.log(thirdDayTypeArr);
+            console.log(fourthDayTypeArr);
+            console.log(fifthDayTypeArr);
 
             currentTemp = roundNumber(weathertoday.data.main.temp);
             currentMax = roundNumber(weathertoday.data.main.temp_max);
             currentMin = roundNumber(weathertoday.data.main.temp_min);
             currentType = weathertoday.data.weather[0].main;
-            weatherIcon = "http://openweathermap.org/img/wn/" + weathertoday.data.weather[0].icon + "@2x.png";
+            //todayIcon = "http://openweathermap.org/img/wn/" + weathertoday.data.weather[0].icon + "@2x.png";
+
+            function icon(icon){
+                return "http://openweathermap.org/img/wn/" + icon + "@2x.png"
+            }
 
             //firstDayMin = roundNumber(Math.min(...firstDayMin));
             //firstDayTemp = roundNumber(firstDayTemp.reduce((a, b) => a + b, 0) / firstDayTemp.length);
@@ -120,34 +151,45 @@ cityButton.addEventListener("click", function () {
             console.log("fifth day minimum temperature is: " + fifthDayMin + ". Maximum: " + fifthDayMax + ". Average: " + fifthDayTemp);
 
 
-
             document.getElementById("weatherType").innerText = currentType;
-            document.getElementById("todayIcon").src = weatherIcon;
+            document.getElementById("todayIcon").src = icon(weathertoday.data.weather[0].icon);
             document.getElementById("avgTemp1").innerText = "The current temperature is " + currentTemp + ".";
             document.getElementById("minTemp1").innerText = "Minimum temperature is " + currentMin + ".";
             document.getElementById("maxTemp1").innerText = "Maximum temperature is " + currentMax + ".";
             clothingAdvice(currentTemp, advice1, weatherReport1);
 
+            document.getElementById("weatherType2").innerText = mostOccurences(secondDayTypeArr);
+            document.getElementById("icon2").src = icon(mostOccurences(secondDayIconArr));
             document.getElementById("avgTemp2").innerText = "Average temperature will be " + day2Avg + ".";
             document.getElementById("minTemp2").innerText = "Minimum temperature will be " + day2Min + ".";
             document.getElementById("maxTemp2").innerText = "Maximum temperature will be " + day2Max + ".";
             clothingAdvice(day2Avg, advice2, weatherReport2);
 
+            document.getElementById("weatherType3").innerText = mostOccurences(thirdDayTypeArr);
+            document.getElementById("icon3").src = icon(mostOccurences(thirdDayIconArr));
             document.getElementById("avgTemp3").innerText = "Average temperature will be " + day3Avg + ".";
             document.getElementById("minTemp3").innerText = "Minimum temperature will be " + day3Min + ".";
             document.getElementById("maxTemp3").innerText = "Maximum temperature will be " + day3Max + ".";
             clothingAdvice(day3Avg, advice3, weatherReport3);
 
+            document.getElementById("weatherType4").innerText = mostOccurences(fourthDayTypeArr);
+            document.getElementById("icon4").src = icon(mostOccurences(fourthDayIconArr));
             document.getElementById("avgTemp4").innerText = "Average temperature will be " + day4Avg + ".";
             document.getElementById("minTemp4").innerText = "Minimum temperature will be " + day4Min + ".";
             document.getElementById("maxTemp4").innerText = "Maximum temperature will be " + day4Max + ".";
             clothingAdvice(day4Avg, advice4, weatherReport4);
 
+            document.getElementById("weatherType5").innerText = mostOccurences(fifthDayTypeArr);
+            document.getElementById("icon5").src = icon(mostOccurences(fifthDayIconArr));
             document.getElementById("avgTemp5").innerText = "Average temperature will be " + day5Avg + ".";
             document.getElementById("minTemp5").innerText = "Minimum temperature will be " + day5Min + ".";
             document.getElementById("maxTemp5").innerText = "Maximum temperature will be " + day5Max + ".";
             clothingAdvice(day5Avg, advice5, weatherReport5);
 
+
+            function icon(icon){
+                return "http://openweathermap.org/img/wn/" + icon + "@2x.png"
+            }
 
         })))
         .catch(function (error) {
