@@ -1,0 +1,20 @@
+#weatherReportToday {
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+    max-width: 300px;
+}
+.card {
+    max-width: 300px;
+}
+
+.icons {
+    width: 100%;
+    text-align: center;
+}
+
+img {
+    width: 100px;
+    height: 100px;
+}
+

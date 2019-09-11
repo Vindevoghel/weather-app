@@ -1,96 +1,145 @@
 let cityButton = document.getElementById("cityButton");
 
-cityButton.addEventListener("click", function() {
+cityButton.addEventListener("click", function () {
     let cityInput = document.getElementById("textbox").value;
 
     axios.all([
-        axios.get('https://api.openweathermap.org/data/2.5/forecast?q=' + cityInput +'&units=metric&appid=0921fb1cbfd95e028b3132ca5c1564da'),
-        axios.get('https://api.openweathermap.org/data/2.5/weather?q=' + cityInput +'&units=metric&appid=0921fb1cbfd95e028b3132ca5c1564da')
+        axios.get('https://api.openweathermap.org/data/2.5/forecast?q=' + cityInput + '&units=metric&appid=0921fb1cbfd95e028b3132ca5c1564da'),
+        axios.get('https://api.openweathermap.org/data/2.5/weather?q=' + cityInput + '&units=metric&appid=0921fb1cbfd95e028b3132ca5c1564da')
     ])
-        .then(axios.spread((function(weatherinfo, weathertoday) {
-            console.log(weatherinfo);
+        .then(axios.spread((function (weatherinfo, weathertoday) {
+            //console.log("Forecast", weatherinfo);
+            //console.log("Current", weathertoday);
+
+            function roundNumber(number) {
+                return (Math.round(number * 10) / 10).toFixed(1);
+            }
+
+            function clothingAdvice(daytemp, dayadvice) {
+                const HOT = 40;
+                const WARM = 25;
+                const CHILLY = 15;
+                const COLD = 0;
+                switch (true) {
+                    case(daytemp > HOT):
+                        dayadvice.innerText = "Stay inside. You will melt.";
+                        break;
+                    case(daytemp > WARM /*&& daytemp < HOT*/):
+                        dayadvice.innerText = "Sun's out, gun's out!";
+                        break;
+                    case(daytemp > CHILLY /*&& daytemp < WARM*/):
+                        dayadvice.innerText = "Bring a jumper!";
+                        break;
+                    case(daytemp > COLD):
+                        dayadvice.innerText = "Bring a coat!";
+                        break;
+                    case(daytemp < COLD):
+                        dayadvice.innerText = "FREEZING, bring your thermal underwear!"
+                }
+            }
+
             function dayChecker() {
-                
+
             }
 
             let firstDayTemp = [], secondDayTemp = [], thirdDayTemp = [], fourthDayTemp = [], fifthDayTemp = [];
             let firstDayMin = [], secondDayMin = [], thirdDayMin = [], fourthDayMin = [], fifthDayMin = [];
             let firstDayMax = [], secondDayMax = [], thirdDayMax = [], fourthDayMax = [], fifthDayMax = [];
 
-            for(let i=0; i<40; i++){
+            for (let i = 0; i < 40; i++) {
                 console.log(weatherinfo.data.list[i].weather[0]);
                 switch (true) {
-                    case (i<8):
+                    case (i < 8):
                         firstDayMin.push(weatherinfo.data.list[i].main.temp_min);
                         firstDayTemp.push(weatherinfo.data.list[i].main.temp);
                         firstDayMax.push(weatherinfo.data.list[i].main.temp_max);
                         //console.log(firstDayMin, firstDayTemp, firstDayMax);
                         break;
-                    case (i<16):
+                    case (i < 16):
                         secondDayMin.push(weatherinfo.data.list[i].main.temp_min);
                         secondDayTemp.push(weatherinfo.data.list[i].main.temp);
                         secondDayMax.push(weatherinfo.data.list[i].main.temp_max);
                         //console.log(secondDayMin, secondDayTemp, secondDayMax);
                         break;
-                    case (i<24):
+                    case (i < 24):
                         thirdDayMin.push(weatherinfo.data.list[i].main.temp_min);
                         thirdDayTemp.push(weatherinfo.data.list[i].main.temp);
                         thirdDayMax.push(weatherinfo.data.list[i].main.temp_max);
                         //console.log(thirdDayMin, thirdDayTemp, thirdDayMax);
                         break;
-                    case (i<32):
+                    case (i < 32):
                         fourthDayMin.push(weatherinfo.data.list[i].main.temp_min);
                         fourthDayTemp.push(weatherinfo.data.list[i].main.temp);
                         fourthDayMax.push(weatherinfo.data.list[i].main.temp_max);
                         //console.log(fourthDayMin, fourthDayTemp, fourthDayMax);
                         break;
-                    case(i<40):
+                    case(i < 40):
                         fifthDayMin.push(weatherinfo.data.list[i].main.temp_min);
                         fifthDayTemp.push(weatherinfo.data.list[i].main.temp);
                         fifthDayMax.push(weatherinfo.data.list[i].main.temp_max);
-                        //console.log(fifthDayMin, fifthDayTemp, fifthDayMax);
+                    //console.log(fifthDayMin, fifthDayTemp, fifthDayMax);
                 }
             }
 
+            currentTemp = roundNumber(weathertoday.data.main.temp);
+            currentMax = roundNumber(weathertoday.data.main.temp_max);
+            currentMin = roundNumber(weathertoday.data.main.temp_min);
+            currentType = weathertoday.data.weather[0].main;
+            weatherIcon = "http://openweathermap.org/img/wn/" + weathertoday.data.weather[0].icon + "@2x.png";
 
+            //firstDayMin = roundNumber(Math.min(...firstDayMin));
+            //firstDayTemp = roundNumber(firstDayTemp.reduce((a, b) => a + b, 0) / firstDayTemp.length);
+            //firstDayMax = roundNumber(Math.max(...firstDayMax));
+            //console.log("First day minimum temperature is: " + firstDayMin + ". Maximum: " + firstDayMax + ". Average: " + firstDayTemp);
 
-            firstDayMin = Math.min(...firstDayMin);
-            firstDayTemp = firstDayTemp.reduce((a,b) => a + b, 0) / firstDayTemp.length;
-            firstDayMax = Math.max(...firstDayMax);
-            console.log("First day minimum temperature is: " + firstDayMin + ". Maximum: " + firstDayMax + ". Average: " + firstDayTemp);
-
-            secondDayMin = Math.min(...secondDayMin);
-            secondDayTemp = secondDayTemp.reduce((a,b) => a + b, 0) / secondDayTemp.length;
-            secondDayMax = Math.max(...secondDayMax);
+            day2Min = roundNumber(Math.min(...secondDayMin));
+            day2Avg = roundNumber(secondDayTemp.reduce((a, b) => a + b, 0) / secondDayTemp.length);
+            day2Max = roundNumber(Math.max(...secondDayMax));
             console.log("second day minimum temperature is: " + secondDayMin + ". Maximum: " + secondDayMax + ". Average: " + secondDayTemp);
 
-            thirdDayMin = Math.min(...thirdDayMin);
-            thirdDayTemp = thirdDayTemp.reduce((a,b) => a + b, 0) / thirdDayTemp.length;
-            thirdDayMax = Math.max(...thirdDayMax);
+            day3Min = roundNumber(Math.min(...thirdDayMin));
+            day3Avg = roundNumber(thirdDayTemp.reduce((a, b) => a + b, 0) / thirdDayTemp.length);
+            day3Max = roundNumber(Math.max(...thirdDayMax));
             console.log("third day minimum temperature is: " + thirdDayMin + ". Maximum: " + thirdDayMax + ". Average: " + thirdDayTemp);
 
-            fourthDayMin = Math.min(...fourthDayMin);
-            fourthDayTemp = fourthDayTemp.reduce((a,b) => a + b, 0) / fourthDayTemp.length;
-            fourthDayMax = Math.max(...fourthDayMax);
+            day4Min = roundNumber(Math.min(...fourthDayMin));
+            day4Avg = roundNumber(fourthDayTemp.reduce((a, b) => a + b, 0) / fourthDayTemp.length);
+            day4Max = roundNumber(Math.max(...fourthDayMax));
             console.log("fourth day minimum temperature is: " + fourthDayMin + ". Maximum: " + fourthDayMax + ". Average: " + fourthDayTemp);
 
-            fifthDayMin = Math.min(...fifthDayMin);
-            fifthDayTemp = fifthDayTemp.reduce((a,b) => a + b, 0) / fifthDayTemp.length;
-            fifthDayMax = Math.max(...fifthDayMax);
+            day5Min = roundNumber(Math.min(...fifthDayMin));
+            day5Avg = roundNumber(fifthDayTemp.reduce((a, b) => a + b, 0) / fifthDayTemp.length);
+            day5Max = roundNumber(Math.max(...fifthDayMax));
             console.log("fifth day minimum temperature is: " + fifthDayMin + ". Maximum: " + fifthDayMax + ". Average: " + fifthDayTemp);
-            //weatherReport.innerText = "We have some " +  weatherinfo.data.weather[0].main + ". It's " + weatherinfo.data.main.temp + " degrees. The max temp is " + weatherinfo.data.main.temp_max + " degrees.";
-
-            function roundNumber(number) {
-                return (Math.round(number * 10) / 10).toFixed(1);
-            }
-            console.log(weathertoday.data.main.temp, weathertoday.data.main.temp_max, weathertoday.data.main.temp_min, weathertoday.data.weather[0].main);
 
 
-            document.getElementById("weatherReport1").innerText = "The Temperature is: " + roundNumber(weathertoday.data.main.temp) + ". Maximum: " + roundNumber(weathertoday.data.main.temp_max) + ". Minimum: " + roundNumber(weathertoday.data.main.temp_min) + "." + weathertoday.data.weather[0].main;
-            document.getElementById("weatherReport2").innerText = "Second day minimum temperature is: " + roundNumber(secondDayMin) + ". Maximum: " + roundNumber(secondDayMax) + ". Average: " + roundNumber(secondDayTemp) + ".";
-            document.getElementById("weatherReport3").innerText = "Third day minimum temperature is: " + roundNumber(thirdDayMin) + ". Maximum: " + roundNumber(thirdDayMax) + ". Average: " + roundNumber(thirdDayTemp) + ".";
-            document.getElementById("weatherReport4").innerText = "Fourth day minimum temperature is: " + roundNumber(fourthDayMin) + ". Maximum: " + roundNumber(fourthDayMax) + ". Average: " + roundNumber(fourthDayTemp) + ".";
-            document.getElementById("weatherReport5").innerText = "Fifth day minimum temperature is: " + roundNumber(fifthDayMin) + ". Maximum: " + roundNumber(fifthDayMax) + ". Average: " + roundNumber(fifthDayTemp) + ".";
+
+            document.getElementById("weatherType").innerText = currentType;
+            document.getElementById("todayIcon").src = weatherIcon;
+            document.getElementById("avgTemp1").innerText = "The current temperature is " + currentTemp + ".";
+            document.getElementById("minTemp1").innerText = "The minimum temperature is " + currentMin + ".";
+            document.getElementById("maxTemp1").innerText = "The maximum temperature is " + currentMax + ".";
+            clothingAdvice(currentTemp, advice1);
+
+            document.getElementById("avgTemp2").innerText = "The average temperature will be " + day2Avg + ".";
+            document.getElementById("minTemp2").innerText = "The minimum temperature will be " + day2Min + ".";
+            document.getElementById("maxTemp2").innerText = "The maximum temperature will be " + day2Max + ".";
+            clothingAdvice(day2Avg, advice2);
+
+            document.getElementById("avgTemp3").innerText = "The average temperature will be " + day3Avg + ".";
+            document.getElementById("minTemp3").innerText = "The minimum temperature will be " + day3Min + ".";
+            document.getElementById("maxTemp3").innerText = "The maximum temperature will be " + day3Max + ".";
+            clothingAdvice(day3Avg, advice3);
+
+            document.getElementById("avgTemp4").innerText = "The average temperature will be " + day4Avg + ".";
+            document.getElementById("minTemp4").innerText = "The minimum temperature will be " + day4Min + ".";
+            document.getElementById("maxTemp4").innerText = "The maximum temperature will be " + day4Max + ".";
+            clothingAdvice(day4Avg, advice4);
+
+            document.getElementById("avgTemp5").innerText = "The average temperature will be " + day5Avg + ".";
+            document.getElementById("minTemp5").innerText = "The minimum temperature will be " + day5Min + ".";
+            document.getElementById("maxTemp5").innerText = "The maximum temperature will be " + day5Max + ".";
+            clothingAdvice(day5Avg, advice5);
 
 
         })))
@@ -98,3 +147,9 @@ cityButton.addEventListener("click", function() {
             console.log(error);
         });
 });
+
+
+//document.getElementById("weatherReport2").innerText = "Second day minimum temperature is: " + roundNumber(secondDayMin) + ". Maximum: " + roundNumber(secondDayMax) + ". Average: " + roundNumber(secondDayTemp) + ".";
+//document.getElementById("weatherReport3").innerText = "Third day minimum temperature is: " + roundNumber(thirdDayMin) + ". Maximum: " + roundNumber(thirdDayMax) + ". Average: " + roundNumber(thirdDayTemp) + ".";
+//document.getElementById("weatherReport4").innerText = "Fourth day minimum temperature is: " + roundNumber(fourthDayMin) + ". Maximum: " + roundNumber(fourthDayMax) + ". Average: " + roundNumber(fourthDayTemp) + ".";
+//document.getElementById("weatherReport5").innerText = "Fifth day minimum temperature is: " + roundNumber(fifthDayMin) + ". Maximum: " + roundNumber(fifthDayMax) + ". Average: " + roundNumber(fifthDayTemp) + ".";
